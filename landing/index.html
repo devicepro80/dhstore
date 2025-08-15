@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DH Store</title>
+    <link rel="icon" href="./favicon.ico" />
+    <style>
+      :root { --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; }
+      body { margin:0; background: linear-gradient(180deg,#0b1220,#0f172a); color:var(--text); font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; }
+      .wrap { min-height:100vh; display:grid; place-items:center; padding:24px; }
+      .card { width:100%; max-width:860px; background:rgba(17,24,39,.6); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:32px; backdrop-filter: blur(10px); }
+      .top { display:flex; align-items:center; gap:20px; }
+      .logo { width:80px; height:80px; border-radius:16px; object-fit:cover; }
+      h1 { margin:0; font-size:clamp(28px,5vw,42px); }
+      p.tag { margin-top:8px; color:var(--muted); font-size:18px; }
+      .actions { margin-top:28px; display:flex; gap:16px; flex-wrap:wrap; }
+      .btn { padding:14px 18px; border-radius:12px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(255,255,255,.12); color:var(--text); }
+      .primary { background:var(--accent); color:#092015; border:none; }
+      .socials { margin-top:24px; display:flex; gap:12px; }
+      .icon { width:24px; height:24px; display:inline-block; }
+      footer { margin-top:24px; color:var(--muted); font-size:14px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="top">
+          <img src="./logo.png" alt="DH Store" class="logo" />
+          <div>
+            <h1>DH Store</h1>
+            <p class="tag">DH Store is your trusted partner in retail and wholesale, offering quality products at great prices.</p>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="https://app.dhstore.rw">Access Inventory System</a>
+          <a class="btn" href="mailto:info@dhstore.rw">Contact Us</a>
+        </div>
+        <div class="socials">
+          <a href="https://facebook.com/" title="Facebook"><img class="icon" src="./facebook.svg" /></a>
+          <a href="https://wa.me/250000000000" title="WhatsApp"><img class="icon" src="./whatsapp.svg" /></a>
+          <a href="https://instagram.com/" title="Instagram"><img class="icon" src="./instagram.svg" /></a>
+        </div>
+        <footer>© <span id="y"></span> DH Store — All rights reserved.</footer>
+      </div>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </body>
+</html>
