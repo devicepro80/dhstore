@@ -1,27 +1,40 @@
 {
   "name": "dhstore-backend",
   "version": "1.0.0",
+  "description": "Inventory Management Backend for DH Store",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-  "dev": "node --watch src/index.js",
-  "build": "mkdir -p dist && cp -r src dist && cp -r prisma dist/prisma",
-  "seed": "node prisma/seed.js",
-  "postinstall": "npx prisma generate || true",
-  "start": "node dist/index.js"
-},
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy"
+  },
   "dependencies": {
-    "@prisma/client": "^5.17.0",
-    "argon2": "^0.31.2",
+    "@prisma/client": "^5.15.0",
+    "argon2": "^0.40.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.9.10",
-    "zod": "^3.23.8"
+    "nodemailer": "^6.9.14"
   },
   "devDependencies": {
-    "prisma": "^5.17.0"
-  }
+    "nodemon": "^3.1.0",
+    "prisma": "^5.15.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "inventory",
+    "backend",
+    "express",
+    "prisma",
+    "dhstore"
+  ],
+  "author": "DH Store",
+  "license": "MIT"
 }
