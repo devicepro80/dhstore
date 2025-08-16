@@ -13,7 +13,7 @@ services:
           name: dhstore-db
           property: connectionString
       - key: JWT_SECRET
-        value: "changeme-secret"   # replace with a strong secret
+        value: "changeme-secret"
     domains:
       - dhstore-backend.onrender.com
     autoDeploy: true
@@ -27,7 +27,10 @@ services:
     publishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: "https://dhstore-backend.onrender.com"
+        fromService:
+          type: web
+          name: dhstore-backend
+          property: url
     domains:
       - dhstore.onrender.com
     autoDeploy: true
@@ -35,16 +38,6 @@ services:
       - from: /*
         to: /index.html
         status: 200
-
-  # Landing Page (optional)
-  - type: static_site
-    name: dhstore-landing
-    rootDir: landing
-    buildCommand: "npm install && npm run build"
-    publishPath: dist
-    domains:
-      - dhstore-landing.onrender.com
-    autoDeploy: true
 
 databases:
   - name: dhstore-db
