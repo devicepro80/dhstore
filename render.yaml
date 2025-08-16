@@ -1,4 +1,5 @@
 services:
+  # Backend (API)
   - type: web
     name: dhstore-backend
     env: node
@@ -13,7 +14,21 @@ services:
       - key: JWT_SECRET
         value: "changeme-secret"
       - key: FRONTEND_DEPLOY_HOOK
-        value: https://api.render.com/deploy/srv-d2fqu6ogjchc73ac8070?key=NiTYLgqRc9c   # paste your real hook here
+        value: https://api.render.com/deploy/srv-d2fqtv0gjchc73ac7mmg?key=139lkOaKs2M  # replace with real hook
+
+  # Frontend (React / Next.js / static site)
+  - type: web
+    name: dhstore-frontend
+    env: static
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    envVars:
+      - key: API_URL
+        fromService:
+          name: dhstore-backend
+          type: web
+          property: url
 
 databases:
   - name: dhstore-db
