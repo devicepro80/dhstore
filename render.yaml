@@ -1,30 +1,27 @@
 services:
   - type: web
     name: dhstore-backend
-    env: node
-    plan: free
-    buildCommand: npm install && npx prisma generate && npm run build
-    startCommand: npm run start
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: dhstore-db
           property: connectionString
-      - key: JWT_SECRET
-        value: "changeme-secret"
 
   - type: web
     name: dhstore-frontend
-    env: static
-    plan: free
+    env: node
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: build
+    startCommand: npm run preview
     envVars:
-      - key: API_URL
-        value: "https://dhstore-backend.onrender.com"  # replace with actual backend URL after deploy
+      - key: VITE_API_URL
+        value: https://dhstore-backend.onrender.com
 
 databases:
   - name: dhstore-db
-    plan: free
     databaseName: dhstore
     user: dhstore
