@@ -1,59 +1,64 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        Int      @id @default(autoincrement())
   username  String   @unique
+  email     String   @unique
   password  String
   role      Role     @default(STAFF)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   sales     Sale[]
 }
 
-enum Role { ADMIN, MANAGER, STAFF }
+enum Role {
+  STAFF
+  MANAGER
+  ADMIN
+}
 
 model Category {
-  id    String   @id @default(cuid())
-  name  String   @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique
   items Item[]
 }
 
 model Item {
-  id             String   @id @default(cuid())
-  name           String
-  sku            String   @unique
-  categoryId     String?
-  category       Category? @relation(fields: [categoryId], references: [id])
-  quantity       Int      @default(0)
-  reorderLevel   Int      @default(5)
-  purchasePrice  Float    @default(0)
-  salePrice      Float    @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  transactions   InventoryTxn[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  sku          String        @unique
+  quantity     Int           @default(0)
+  reorderLevel Int           @default(5)
+  salePrice    Float
+  categoryId   Int
+  category     Category      @relation(fields: [categoryId], references: [id])
+  txns         InventoryTxn[]
+  sales        Sale[]
 }
 
 model InventoryTxn {
-  id        String   @id @default(cuid())
-  itemId    String
-  item      Item     @relation(fields: [itemId], references: [id])
-  type      TxnType
+  id        Int      @id @default(autoincrement())
+  type      String
   quantity  Int
   note      String?
   createdAt DateTime @default(now())
+  itemId    Int
+  item      Item     @relation(fields: [itemId], references: [id])
 }
 
-enum TxnType { IN, OUT, ADJUST }
-
 model Sale {
-  id        String   @id @default(cuid())
-  itemId    String
-  item      Item     @relation(fields: [itemId], references: [id])
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
   quantity  Int
   amount    Float
   createdAt DateTime @default(now())
+  itemId    Int
+  item      Item     @relation(fields: [itemId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
