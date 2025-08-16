@@ -14,23 +14,37 @@ services:
           property: connectionString
       - key: JWT_SECRET
         value: "changeme-secret"   # replace with a strong secret
+    domains:
+      - dhstore-backend.onrender.com
+    autoDeploy: true
+    healthCheckPath: /healthz
 
   # Frontend (React + Vite)
-  - type: static
+  - type: static_site
     name: dhstore-frontend
     rootDir: frontend
     buildCommand: "npm install && npm run build"
-    staticPublishPath: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_URL
         value: "https://dhstore-backend.onrender.com"
+    domains:
+      - dhstore.onrender.com
+    autoDeploy: true
+    redirects:
+      - from: /*
+        to: /index.html
+        status: 200
 
   # Landing Page (optional)
-  - type: static
+  - type: static_site
     name: dhstore-landing
     rootDir: landing
     buildCommand: "npm install && npm run build"
-    staticPublishPath: dist
+    publishPath: dist
+    domains:
+      - dhstore-landing.onrender.com
+    autoDeploy: true
 
 databases:
   - name: dhstore-db
