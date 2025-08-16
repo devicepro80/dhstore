@@ -1,45 +1,37 @@
 services:
+  # Backend API
   - type: web
     name: dhstore-backend
     env: node
-    plan: free
     rootDir: backend
-    buildCommand: npm ci && npx prisma generate && npm run build
-    startCommand: node dist/index.js
-    autoDeploy: true
-    healthCheckPath: /health
+    buildCommand: "npm install && npx prisma generate && npm run build"
+    startCommand: "node src/index.js"
+    plan: free
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: dhstore-postgres
+          name: dhstore-db
           property: connectionString
       - key: JWT_SECRET
-        generateValue: true
-      - key: FRONTEND_ORIGIN
-        value: https://app.dhstore.rw
-      - key: FORCE_HTTPS
-        value: "true"
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        sync: false
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
-        sync: false
-      - key: SMTP_FROM
-        value: no-reply@dhstore.rw
+        value: "changeme-secret"   # replace with a strong secret
 
-  - type: web
+  # Frontend (React + Vite)
+  - type: static
     name: dhstore-frontend
-    env: static
     rootDir: frontend
-    buildCommand: npm ci && npm run build
+    buildCommand: "npm install && npm run build"
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://api.dhstore.rw
+        value: "https://dhstore-backend.onrender.com"
+
+  # Landing Page (optional)
+  - type: static
+    name: dhstore-landing
+    rootDir: landing
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: dist
 
 databases:
-  - name: dhstore-postgres
+  - name: dhstore-db
     plan: free
